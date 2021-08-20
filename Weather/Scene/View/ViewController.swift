@@ -24,7 +24,7 @@ class ViewController: UIViewController {
 
     let geoManager = CLLocationManager()
     var likedLocations: [Int] = []
-    private var backgroundPlayer: AVAudioPlayer?
+    var backgroundPlayer: AVAudioPlayer?
     private var soundEffectPlayer: AVAudioPlayer?
 
     private var isSoundEnable = false
@@ -32,8 +32,22 @@ class ViewController: UIViewController {
     private var units = "Metric"
     private let userDefaults = UserDefaults.standard
 
+    var viewModel: ViewModel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel = ViewModelImplementation(viewController: self)
+        viewModel?.didSoundButtonPressed = { isSoundEnable in
+            switch isSoundEnable {
+            case false:
+                self.isSoundEnable = !self.isSoundEnable
+                self.soundButton.setImage(UIImage(systemName: "play.slash"), for: .normal)
+            case true:
+                self.isSoundEnable = !self.isSoundEnable
+                self.soundButton.setImage(UIImage(systemName: "play"), for: .normal)
+            }
+        }
 
         hourlyForecastTableView.dataSource = forecastTableViewDelegateHelper
         hourlyForecastTableView.delegate = forecastTableViewDelegateHelper
@@ -229,17 +243,22 @@ class ViewController: UIViewController {
     }
 
     @IBAction func soundButtonPressed(_ sender: Any) {
-        switch isSoundEnable {
-        case true:
-            isSoundEnable = false
-            soundButton.setImage(UIImage(systemName: "play.slash"), for: .normal)
-            backgroundPlayer?.stop()
-            soundEffectPlayer?.stop()
-        case false:
-            isSoundEnable = true
-            soundButton.setImage(UIImage(systemName: "play"), for: .normal)
-            backgroundPlayer?.play()
+
+        if let isSoundEnabled = viewModel?.isSoundEnabled {
+            viewModel?.isSoundEnabled = !isSoundEnabled
         }
+        
+//        switch isSoundEnable {
+//        case true:
+//            isSoundEnable = false
+//            soundButton.setImage(UIImage(systemName: "play.slash"), for: .normal)
+//            backgroundPlayer?.stop()
+//            soundEffectPlayer?.stop()
+//        case false:
+//            isSoundEnable = true
+//            soundButton.setImage(UIImage(systemName: "play"), for: .normal)
+//            backgroundPlayer?.play()
+//        }
     }
 
     @IBAction func likeButtonPressed(_ sender: Any) {
