@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,41 +18,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EHf-KX-b2u">
-                                <rect key="frame" x="364" y="64" width="40" height="40"/>
+                                <rect key="frame" x="370" y="64" width="22" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="EHf-KX-b2u" secondAttribute="height" multiplier="1:1" id="aXe-G2-kem"/>
+                                    <constraint firstAttribute="width" constant="22" id="yEb-1G-slD"/>
                                 </constraints>
-                                <state key="normal" image="play.slash" catalog="system"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="play.slash" catalog="system" symbolScale="large"/>
+                                </state>
                                 <connections>
                                     <action selector="soundButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="msy-0B-DkY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYW-AN-Fao">
-                                <rect key="frame" x="10" y="64" width="40" height="40"/>
+                                <rect key="frame" x="54" y="64" width="22" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="zYW-AN-Fao" secondAttribute="height" multiplier="1:1" id="RYs-Ef-lD5"/>
+                                    <constraint firstAttribute="width" constant="22" id="GL2-e4-OVF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                <state key="normal" image="heart" catalog="system">
+                                <state key="normal">
                                     <color key="titleColor" systemColor="systemBlueColor"/>
+                                    <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
                                 </state>
                                 <connections>
                                     <action selector="likeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TK8-sd-Apw"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gpe-2B-RWT">
-                                <rect key="frame" x="20" y="124" width="374" height="718"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gpe-2B-RWT">
+                                <rect key="frame" x="20" y="128" width="374" height="712"/>
+                                <color key="backgroundColor" red="1" green="0.15690772950000001" blue="0.36357516769999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" borderStyle="roundedRect" clearsOnBeginEditing="YES" adjustsFontForContentSizeCategory="YES" minimumFontSize="15" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="flv-vc-9n6">
-                                <rect key="frame" x="60" y="64" width="294" height="40"/>
+                                <rect key="frame" x="86" y="64" width="274" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="S6j-6G-tBZ"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="QOA-8p-mpH"/>
+                                    <constraint firstAttribute="height" constant="44" id="S6j-6G-tBZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartInsertDeleteType="no" textContentType="address-level2"/>
                             </textField>
                             <button opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YeJ-1B-TtI">
-                                <rect key="frame" x="60" y="68.5" width="32" height="30.5"/>
+                                <rect key="frame" x="86" y="69" width="35" height="33.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YeJ-1B-TtI" secondAttribute="height" multiplier="1:1" id="gPb-sT-ZWf"/>
                                 </constraints>
@@ -60,8 +66,25 @@
                                     <action selector="currentLocationButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l78-ON-C70"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NEV-8L-BqV">
-                                <rect key="frame" x="20" y="124" width="374" height="758"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NEV-8L-BqV">
+                                <rect key="frame" x="22" y="130" width="370" height="754"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcf-vl-qCk">
+                                <rect key="frame" x="22" y="69" width="22" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="22" id="6uB-PL-HQm"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" systemColor="systemBlueColor"/>
+                                    <imageReference key="image" image="list.bullet" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="listOfLikedCitiesButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mRu-c7-y4G"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HTJ-Ky-HNu">
+                                <rect key="frame" x="22" y="125" width="333" height="377"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -70,25 +93,30 @@
                         <constraints>
                             <constraint firstItem="flv-vc-9n6" firstAttribute="leading" secondItem="zYW-AN-Fao" secondAttribute="trailing" constant="10" id="0VA-r6-DtA"/>
                             <constraint firstItem="zYW-AN-Fao" firstAttribute="centerY" secondItem="flv-vc-9n6" secondAttribute="centerY" id="2F9-D9-x9b"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="flv-vc-9n6" secondAttribute="trailing" constant="60" id="2cL-vm-bOZ"/>
                             <constraint firstItem="EHf-KX-b2u" firstAttribute="leading" secondItem="flv-vc-9n6" secondAttribute="trailing" constant="10" id="5cE-eh-klD"/>
                             <constraint firstItem="flv-vc-9n6" firstAttribute="centerY" secondItem="YeJ-1B-TtI" secondAttribute="centerY" id="7dx-A4-coJ"/>
-                            <constraint firstItem="NEV-8L-BqV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="9mp-Wn-abT"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EHf-KX-b2u" secondAttribute="trailing" constant="10" id="Cgw-FW-rCf"/>
-                            <constraint firstItem="NEV-8L-BqV" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="20" id="D1c-4Z-UBt"/>
+                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="width" secondItem="NEV-8L-BqV" secondAttribute="width" multiplier="0.9" id="7xQ-iR-AOG"/>
+                            <constraint firstItem="NEV-8L-BqV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="9mp-Wn-abT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EHf-KX-b2u" secondAttribute="trailing" constant="22" id="Cgw-FW-rCf"/>
+                            <constraint firstItem="NEV-8L-BqV" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="22" id="D1c-4Z-UBt"/>
+                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="height" secondItem="NEV-8L-BqV" secondAttribute="height" multiplier="0.5" id="EZZ-sy-zwu"/>
                             <constraint firstItem="gpe-2B-RWT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Hye-VZ-UN1"/>
                             <constraint firstItem="YeJ-1B-TtI" firstAttribute="height" secondItem="flv-vc-9n6" secondAttribute="height" multiplier="0.8" id="ItT-zP-qko"/>
-                            <constraint firstItem="NEV-8L-BqV" firstAttribute="top" secondItem="EHf-KX-b2u" secondAttribute="bottom" constant="20" id="JP1-ux-gDE"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NEV-8L-BqV" secondAttribute="trailing" constant="20" id="Obp-yX-kga"/>
+                            <constraint firstItem="NEV-8L-BqV" firstAttribute="top" secondItem="EHf-KX-b2u" secondAttribute="bottom" constant="22" id="JP1-ux-gDE"/>
+                            <constraint firstItem="zYW-AN-Fao" firstAttribute="leading" secondItem="pcf-vl-qCk" secondAttribute="trailing" constant="10" id="LkI-B1-3Vp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NEV-8L-BqV" secondAttribute="trailing" constant="22" id="Obp-yX-kga"/>
                             <constraint firstItem="flv-vc-9n6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="QGf-Wg-1oh"/>
+                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="top" secondItem="pcf-vl-qCk" secondAttribute="bottom" constant="22" id="RBV-p4-DHO"/>
                             <constraint firstItem="EHf-KX-b2u" firstAttribute="centerY" secondItem="flv-vc-9n6" secondAttribute="centerY" id="SRi-HT-HUc"/>
+                            <constraint firstItem="pcf-vl-qCk" firstAttribute="height" secondItem="zYW-AN-Fao" secondAttribute="height" multiplier="0.772727" id="X0M-RO-A7p"/>
                             <constraint firstItem="zYW-AN-Fao" firstAttribute="height" secondItem="flv-vc-9n6" secondAttribute="height" id="bVO-hK-iB5"/>
                             <constraint firstItem="flv-vc-9n6" firstAttribute="leading" secondItem="YeJ-1B-TtI" secondAttribute="leading" id="c5I-2R-60x"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gpe-2B-RWT" secondAttribute="trailing" constant="20" id="cFz-cL-geV"/>
-                            <constraint firstItem="zYW-AN-Fao" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="h4k-ON-fjz"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gpe-2B-RWT" secondAttribute="bottom" constant="20" id="oIX-eA-in1"/>
+                            <constraint firstItem="pcf-vl-qCk" firstAttribute="centerY" secondItem="zYW-AN-Fao" secondAttribute="centerY" id="fes-8m-F2C"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gpe-2B-RWT" secondAttribute="bottom" constant="22" id="oIX-eA-in1"/>
+                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="leading" secondItem="pcf-vl-qCk" secondAttribute="leading" id="oZo-x9-a6i"/>
                             <constraint firstItem="EHf-KX-b2u" firstAttribute="height" secondItem="flv-vc-9n6" secondAttribute="height" id="pMF-UB-VKx"/>
-                            <constraint firstItem="flv-vc-9n6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60" id="qnj-SM-ZTW"/>
+                            <constraint firstItem="pcf-vl-qCk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="qsJ-y8-CsR"/>
                             <constraint firstItem="gpe-2B-RWT" firstAttribute="top" secondItem="EHf-KX-b2u" secondAttribute="bottom" constant="20" id="yMb-lO-fhS"/>
                         </constraints>
                     </view>
@@ -98,6 +126,8 @@
                         <outlet property="currentLocationButton" destination="YeJ-1B-TtI" id="7kE-FJ-U2c"/>
                         <outlet property="hourlyForecastTableView" destination="gpe-2B-RWT" id="tEd-x5-U86"/>
                         <outlet property="likeButton" destination="zYW-AN-Fao" id="7rf-2F-LHI"/>
+                        <outlet property="listOfLikedCitiesButton" destination="pcf-vl-qCk" id="KaO-Oh-a4F"/>
+                        <outlet property="listOfLikedCitiesTableView" destination="HTJ-Ky-HNu" id="LRj-Ca-S2o"/>
                         <outlet property="soundButton" destination="EHf-KX-b2u" id="LwD-sP-Els"/>
                     </connections>
                 </viewController>
@@ -108,6 +138,7 @@
     </scenes>
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="location.viewfinder" catalog="system" width="128" height="115"/>
         <image name="play.slash" catalog="system" width="120" height="128"/>
         <systemColor name="systemBackgroundColor">

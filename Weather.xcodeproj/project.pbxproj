@@ -18,6 +18,7 @@
 		18B0080D26A9955800CA77FA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B0080F26A9955800CA77FA /* Localizable.strings */; };
 		18B0081226A9978500CA77FA /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B0081126A9978500CA77FA /* String+Localizable.swift */; };
 		18B0081526A9A10800CA77FA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B0081726A9A10800CA77FA /* InfoPlist.strings */; };
+		18B220C726D049E70035A6E3 /* ListOfLikedCitiesTableViewDelegateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B220C626D049E70035A6E3 /* ListOfLikedCitiesTableViewDelegateHelper.swift */; };
 		18B8932526CCE80300200DDB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8932426CCE80300200DDB /* ViewModel.swift */; };
 		18CD40E0269E9A69002D5024 /* GeoCoordinatesByCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CD40DF269E9A69002D5024 /* GeoCoordinatesByCity.swift */; };
 		18CD40E2269ECC7F002D5024 /* CityList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CD40E1269ECC7F002D5024 /* CityList.swift */; };
@@ -47,6 +48,7 @@
 		18B0081126A9978500CA77FA /* String+Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
 		18B0081626A9A10800CA77FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		18B0081826A9A11600CA77FA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		18B220C626D049E70035A6E3 /* ListOfLikedCitiesTableViewDelegateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfLikedCitiesTableViewDelegateHelper.swift; sourceTree = "<group>"; };
 		18B8932426CCE80300200DDB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		18CD40DF269E9A69002D5024 /* GeoCoordinatesByCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCoordinatesByCity.swift; sourceTree = "<group>"; };
 		18CD40E1269ECC7F002D5024 /* CityList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityList.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 			children = (
 				18AB7031269B65D0007827EC /* Main.storyboard */,
 				18AB702F269B65D0007827EC /* ViewController.swift */,
+				18B220C626D049E70035A6E3 /* ListOfLikedCitiesTableViewDelegateHelper.swift */,
 				18D12B6726A6FCEA0028A292 /* CityTableViewDelegateHelper.swift */,
 				18D12B6926A7EEDE0028A292 /* ForecastTableViewDelegateHelper.swift */,
 			);
@@ -313,6 +316,7 @@
 				18CD40E4269EFB9A002D5024 /* HourlyForecast.swift in Sources */,
 				18CD40E2269ECC7F002D5024 /* CityList.swift in Sources */,
 				18D12B6826A6FCEA0028A292 /* CityTableViewDelegateHelper.swift in Sources */,
+				18B220C726D049E70035A6E3 /* ListOfLikedCitiesTableViewDelegateHelper.swift in Sources */,
 				18AB7040269B67D1007827EC /* CurrentWeatherAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

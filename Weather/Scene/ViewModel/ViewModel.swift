@@ -6,31 +6,84 @@
 //
 
 import Foundation
+import AVKit
 
 protocol ViewModel {
     var didSoundButtonPressed: ((Bool) -> ())? { get set }
-    var isSoundEnabled: Bool? { get set }
+    var isSoundOn: Bool { get set }
+    var isSoundEnabled: Bool { get set }
+    var backgroundPlayer: AVAudioPlayer? { get set }
+    var soundEffectPlayer: AVAudioPlayer? { get set }
+    func prepareSound()
+    func viewDidLoad()
 }
 
-class ViewModelImplementation: ViewModel {
-    var didSoundButtonPressed: ((Bool) -> ())?
-    weak var viewController: ViewController?
-
+class ViewModelImplementation: NSObject, ViewModel {
     init(viewController: ViewController) {
         self.viewController = viewController
     }
+    weak var viewController: ViewController?
 
-     var isSoundEnabled: Bool? = false {
+    var didSoundButtonPressed: ((Bool) -> ())?
+    var backgroundPlayer: AVAudioPlayer?
+    var soundEffectPlayer: AVAudioPlayer?
+
+    var isSoundOn: Bool = false
+    var isSoundEnabled: Bool = false {
         didSet {
-            if let isSoundEnabled = isSoundEnabled {
-                self.didSoundButtonPressed?(isSoundEnabled)
-                // бизнес-логика
-                if isSoundEnabled {
-                    viewController?.backgroundPlayer?.play()
-                } else {
-                    viewController?.backgroundPlayer?.stop()
-                }
+            isSoundOn = isSoundEnabled
+            self.didSoundButtonPressed?(isSoundEnabled)
+            // бизнес-логика
+            if isSoundEnabled {
+                backgroundPlayer?.play()
+            } else {
+                backgroundPlayer?.stop()
             }
+        }
+    }
+    
+    func viewDidLoad() {
+        prepareSound()
+    }
+    
+    func prepareSound() {
+        if let backgroundAudioFileURL = Bundle.main.url(
+            forResource: "Background sound",
+            withExtension: "mp3"
+        ) {
+            do {
+                let player = try AVAudioPlayer(contentsOf: backgroundAudioFileURL)
+                player.prepareToPlay()
+                player.delegate = self
+                player.volume = 0.4
+                backgroundPlayer = player
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        if let soundEffectAudioFileURL = Bundle.main.url(
+            forResource: "Effect sound",
+            withExtension: "mp3"
+        ) {
+            do {
+                let player = try AVAudioPlayer(contentsOf: soundEffectAudioFileURL)
+                player.prepareToPlay()
+                player.delegate = self
+                player.volume = 0.5
+                soundEffectPlayer = player
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
+extension ViewModelImplementation: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        if isSoundOn {
+            backgroundPlayer?.play()
+        } else {
+            backgroundPlayer = nil
         }
     }
 }

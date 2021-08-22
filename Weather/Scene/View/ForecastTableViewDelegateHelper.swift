@@ -62,4 +62,10 @@ class ForecastTableViewDelegateHelper: NSObject, UITableViewDelegate, UITableVie
             "\(sign)\(Int(round(temp)))º  \(description)  ветер \(windSpeed)"
         return cell
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewController.listOfLikedCitiesTableView.alpha = 0
+        viewController.listOfLikedCitiesButton.isSelected = false
+        viewController.hourlyForecastTableView.alpha = 1
+    }
 }

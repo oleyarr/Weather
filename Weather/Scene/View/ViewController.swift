@@ -6,7 +6,6 @@
 
 import UIKit
 import CoreLocation
-import AVKit
 
 class ViewController: UIViewController {
 
@@ -14,20 +13,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var cityListTableView: UITableView!
     @IBOutlet weak var currentLocationButton: UIButton!
     @IBOutlet weak var hourlyForecastTableView: UITableView!
+    @IBOutlet weak var listOfLikedCitiesTableView: UITableView!
     @IBOutlet weak var soundButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var listOfLikedCitiesButton: UIButton!
 
     private var savedCurrentLocation = (0.0, 0.0)
-    private var fullCityList: [CityList] = []
+    var fullCityList: [CityList] = []
     lazy var cityTableViewDelegateHelper = CityTableViewDelegateHelper(viewController: self)
     lazy var forecastTableViewDelegateHelper = ForecastTableViewDelegateHelper(viewController: self)
+    lazy var listOfLikedCitiesTableViewDelegateHelper = ListOfLikedCitiesTableViewDelegateHelper(viewController: self)
 
     let geoManager = CLLocationManager()
     var likedLocations: [Int] = []
-    var backgroundPlayer: AVAudioPlayer?
-    private var soundEffectPlayer: AVAudioPlayer?
+    var likedCityList: [CityList] = []
 
-    private var isSoundEnable = false
     private var lang = "RU"
     private var units = "Metric"
     private let userDefaults = UserDefaults.standard
@@ -41,10 +41,8 @@ class ViewController: UIViewController {
         viewModel?.didSoundButtonPressed = { isSoundEnable in
             switch isSoundEnable {
             case false:
-                self.isSoundEnable = !self.isSoundEnable
                 self.soundButton.setImage(UIImage(systemName: "play.slash"), for: .normal)
             case true:
-                self.isSoundEnable = !self.isSoundEnable
                 self.soundButton.setImage(UIImage(systemName: "play"), for: .normal)
             }
         }
@@ -60,7 +58,11 @@ class ViewController: UIViewController {
         citySearchTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 0))
         citySearchTextField.leftViewMode = .always
 
-        geoManager.delegate = self
+        listOfLikedCitiesTableView.alpha = 0
+        listOfLikedCitiesTableView.backgroundColor = .lightGray
+        listOfLikedCitiesButton.setImage(UIImage(systemName: "list.bullet"), for: .normal)
+        listOfLikedCitiesButton.setImage(UIImage(systemName: "list.bullet.rectangle"), for: .selected)
+
         geoManager.desiredAccuracy = kCLLocationAccuracyBest
         geoManager.distanceFilter = 1000
         if !(geoManager.authorizationStatus == .authorizedWhenInUse
@@ -73,64 +75,34 @@ class ViewController: UIViewController {
                                                name: UITextField.textDidChangeNotification, object: citySearchTextField)
 
         getFullCityList()
-        prepareSound()
-        repairLikes()
+        viewModel?.viewDidLoad()
+        rememberLikes()
 
-        if likedLocations.count > 0 {
-            if likedLocations.last == -1 {
-                getCurrentLocationHourlyForecast()
-            } else {
-                cityTableViewDelegateHelper.partCityList = fullCityList.filter {
-                    ($0.id == likedLocations.last)
-                }
-                citySearchTextField.text = "\(cityTableViewDelegateHelper.partCityList[0].name)" +
-                                        "\(cityTableViewDelegateHelper.partCityList[0].country)"
-                cityTableViewDelegateHelper.selectedGeoCoord = (cityTableViewDelegateHelper.partCityList[0].coord.lat,
-                                                          cityTableViewDelegateHelper.partCityList[0].coord.lon)
-                cityTableViewDelegateHelper.selectedCity = (cityTableViewDelegateHelper.partCityList[0].id,
-                                                      cityTableViewDelegateHelper.partCityList[0].name,
-                                                      cityTableViewDelegateHelper.partCityList[0].country)
-                showCityForecast()
-            }
-            likeButton.isSelected = true
+        switch rememberLastLocation() {
+        case let(cityId) where cityId > 0:
+            let city = fullCityList.filter({
+                $0.id == cityId
+            })
+            citySearchTextField.text = "\(city[0].name) " + "\(city[0].country)"
+            cityTableViewDelegateHelper.selectedGeoCoord = (city[0].coord.lat, city[0].coord.lon)
+            cityTableViewDelegateHelper.selectedCity = (city[0].id,
+                                                        city[0].name,
+                                                        city[0].country)
+            showCityForecast()
+        case -1:
+            getCurrentLocationHourlyForecast()
+        default:
+            return
         }
     }
 
-    func repairLikes() {
+    func rememberLikes() {
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         likeButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         likedLocations = userDefaults.value(forKey: "list_of_city_likes") as? [Int] ?? []
-    }
-
-    func prepareSound() {
-        if let backgroundAudioFileURL = Bundle.main.url(
-            forResource: "Background sound",
-            withExtension: "mp3"
-        ) {
-            do {
-                let player = try AVAudioPlayer(contentsOf: backgroundAudioFileURL)
-                player.prepareToPlay()
-                player.delegate = self
-                player.volume = 0.4
-                backgroundPlayer = player
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        if let soundEffectAudioFileURL = Bundle.main.url(
-            forResource: "Effect sound",
-            withExtension: "mp3"
-        ) {
-            do {
-                let player = try AVAudioPlayer(contentsOf: soundEffectAudioFileURL)
-                player.prepareToPlay()
-                player.delegate = self
-                player.volume = 0.8
-                soundEffectPlayer = player
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+        likedCityList = fullCityList.filter({
+            likedLocations.contains($0.id)
+        })
     }
 
     func getFullCityList() {
@@ -143,6 +115,8 @@ class ViewController: UIViewController {
     }
 
     @objc func citySearchTextFieldDidChanged() {
+        listOfLikedCitiesTableView.alpha = 0
+        listOfLikedCitiesButton.isSelected = false
         if citySearchTextField.text == "" {
             cityListTableView.alpha = 0
             hourlyForecastTableView.alpha = 1
@@ -201,8 +175,8 @@ class ViewController: UIViewController {
                 return
             }
             do {
-                let post = try JSONDecoder().decode(HourlyForecast.self, from: data)
-                self.forecastTableViewDelegateHelper.hourlyWeather = post
+                let decode = try JSONDecoder().decode(HourlyForecast.self, from: data)
+                self.forecastTableViewDelegateHelper.hourlyWeather = decode
                 DispatchQueue.main.async {
                     self.hourlyForecastTableView.reloadData()
                 }
@@ -211,6 +185,20 @@ class ViewController: UIViewController {
             }
         }
         task.resume()
+    }
+
+    func saveLastLocation() {
+        let lastLocation = String(cityTableViewDelegateHelper.selectedCity.0)
+        userDefaults.setValue(lastLocation, forKey: "last_location")
+    }
+
+    func rememberLastLocation() -> (Int) {
+        if let lastLocationAny = userDefaults.value(forKey: "last_location") {
+            let lastLocationString = lastLocationAny as? String ?? "0"
+            let lastLocationInt: Int = Int(lastLocationString) ?? 0
+            return lastLocationInt
+        }
+        return 0
     }
 
     func showCityForecast() {
@@ -224,9 +212,11 @@ class ViewController: UIViewController {
         } else {
             likeButton.isSelected = false
         }
+        saveLastLocation()
     }
 
     func getCurrentLocationHourlyForecast() {
+        geoManager.delegate = self
         cityListTableView.alpha = 0
         hourlyForecastTableView.alpha = 1
         cityTableViewDelegateHelper.selectedGeoCoord = savedCurrentLocation
@@ -240,31 +230,10 @@ class ViewController: UIViewController {
         } else {
             likeButton.isSelected = false
         }
+        saveLastLocation()
     }
 
-    @IBAction func soundButtonPressed(_ sender: Any) {
-
-        if let isSoundEnabled = viewModel?.isSoundEnabled {
-            viewModel?.isSoundEnabled = !isSoundEnabled
-        }
-        
-//        switch isSoundEnable {
-//        case true:
-//            isSoundEnable = false
-//            soundButton.setImage(UIImage(systemName: "play.slash"), for: .normal)
-//            backgroundPlayer?.stop()
-//            soundEffectPlayer?.stop()
-//        case false:
-//            isSoundEnable = true
-//            soundButton.setImage(UIImage(systemName: "play"), for: .normal)
-//            backgroundPlayer?.play()
-//        }
-    }
-
-    @IBAction func likeButtonPressed(_ sender: Any) {
-        if isSoundEnable {
-            soundEffectPlayer?.play()
-        }
+    func saveLike() {
         if likedLocations.contains(cityTableViewDelegateHelper.selectedCity.0) {
             if let index = likedLocations.firstIndex(of: cityTableViewDelegateHelper.selectedCity.0) {
                 likedLocations.remove(at: index)
@@ -273,6 +242,33 @@ class ViewController: UIViewController {
             likedLocations.append(cityTableViewDelegateHelper.selectedCity.0)
         }
         userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
+    }
+
+    @IBAction func soundButtonPressed(_ sender: Any) {
+        if let isSoundEnabled = viewModel?.isSoundEnabled {
+            viewModel?.isSoundEnabled = !isSoundEnabled
+        }
+    }
+
+    @IBAction func listOfLikedCitiesButtonPressed(_ sender: Any) {
+        listOfLikedCitiesButton.isSelected = !listOfLikedCitiesButton.isSelected
+        if listOfLikedCitiesButton.isSelected {
+            listOfLikedCitiesTableView.alpha = 1
+            hourlyForecastTableView.alpha = 0.5
+            listOfLikedCitiesTableView.dataSource = listOfLikedCitiesTableViewDelegateHelper
+            listOfLikedCitiesTableView.delegate = listOfLikedCitiesTableViewDelegateHelper
+            listOfLikedCitiesTableView.reloadData()
+        } else {
+            listOfLikedCitiesTableView.alpha = 0
+            hourlyForecastTableView.alpha = 1
+        }
+    }
+
+    @IBAction func likeButtonPressed(_ sender: Any) {
+        if (viewModel?.isSoundOn) == true {
+            viewModel?.soundEffectPlayer?.play()
+        }
+        saveLike()
         likeButton.isSelected = !likeButton.isSelected
     }
 
@@ -298,15 +294,5 @@ extension ViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
-    }
-}
-
-extension ViewController: AVAudioPlayerDelegate {
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        if isSoundEnable {
-            backgroundPlayer?.play()
-        } else {
-            backgroundPlayer = nil
-        }
     }
 }
