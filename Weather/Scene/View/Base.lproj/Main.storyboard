@@ -45,7 +45,7 @@
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gpe-2B-RWT">
                                 <rect key="frame" x="20" y="128" width="374" height="712"/>
-                                <color key="backgroundColor" red="1" green="0.15690772950000001" blue="0.36357516769999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" borderStyle="roundedRect" clearsOnBeginEditing="YES" adjustsFontForContentSizeCategory="YES" minimumFontSize="15" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="flv-vc-9n6">
                                 <rect key="frame" x="86" y="64" width="274" height="44"/>
@@ -66,7 +66,7 @@
                                     <action selector="currentLocationButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l78-ON-C70"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NEV-8L-BqV">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NEV-8L-BqV">
                                 <rect key="frame" x="22" y="130" width="370" height="754"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
@@ -83,8 +83,8 @@
                                     <action selector="listOfLikedCitiesButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mRu-c7-y4G"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HTJ-Ky-HNu">
-                                <rect key="frame" x="22" y="125" width="333" height="377"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HTJ-Ky-HNu">
+                                <rect key="frame" x="22" y="125" width="333" height="603"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -99,7 +99,7 @@
                             <constraint firstItem="NEV-8L-BqV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="9mp-Wn-abT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EHf-KX-b2u" secondAttribute="trailing" constant="22" id="Cgw-FW-rCf"/>
                             <constraint firstItem="NEV-8L-BqV" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="22" id="D1c-4Z-UBt"/>
-                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="height" secondItem="NEV-8L-BqV" secondAttribute="height" multiplier="0.5" id="EZZ-sy-zwu"/>
+                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="height" relation="greaterThanOrEqual" secondItem="NEV-8L-BqV" secondAttribute="height" multiplier="0.3" id="EZZ-sy-zwu"/>
                             <constraint firstItem="gpe-2B-RWT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Hye-VZ-UN1"/>
                             <constraint firstItem="YeJ-1B-TtI" firstAttribute="height" secondItem="flv-vc-9n6" secondAttribute="height" multiplier="0.8" id="ItT-zP-qko"/>
                             <constraint firstItem="NEV-8L-BqV" firstAttribute="top" secondItem="EHf-KX-b2u" secondAttribute="bottom" constant="22" id="JP1-ux-gDE"/>

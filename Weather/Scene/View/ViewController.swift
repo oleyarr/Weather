@@ -59,7 +59,6 @@ class ViewController: UIViewController {
         citySearchTextField.leftViewMode = .always
 
         listOfLikedCitiesTableView.alpha = 0
-        listOfLikedCitiesTableView.backgroundColor = .lightGray
         listOfLikedCitiesButton.setImage(UIImage(systemName: "list.bullet"), for: .normal)
         listOfLikedCitiesButton.setImage(UIImage(systemName: "list.bullet.rectangle"), for: .selected)
 
@@ -233,7 +232,7 @@ class ViewController: UIViewController {
         saveLastLocation()
     }
 
-    func saveLike() {
+    func setLike() {
         if likedLocations.contains(cityTableViewDelegateHelper.selectedCity.0) {
             if let index = likedLocations.firstIndex(of: cityTableViewDelegateHelper.selectedCity.0) {
                 likedLocations.remove(at: index)
@@ -242,6 +241,10 @@ class ViewController: UIViewController {
             likedLocations.append(cityTableViewDelegateHelper.selectedCity.0)
         }
         userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
+        likedCityList = fullCityList.filter({
+            likedLocations.contains($0.id)
+        })
+        listOfLikedCitiesTableView.reloadData()
     }
 
     @IBAction func soundButtonPressed(_ sender: Any) {
@@ -268,7 +271,7 @@ class ViewController: UIViewController {
         if (viewModel?.isSoundOn) == true {
             viewModel?.soundEffectPlayer?.play()
         }
-        saveLike()
+        setLike()
         likeButton.isSelected = !likeButton.isSelected
     }
 

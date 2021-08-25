@@ -41,11 +41,11 @@ class ViewModelImplementation: NSObject, ViewModel {
             }
         }
     }
-    
+
     func viewDidLoad() {
         prepareSound()
     }
-    
+
     func prepareSound() {
         if let backgroundAudioFileURL = Bundle.main.url(
             forResource: "Background sound",
