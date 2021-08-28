@@ -129,7 +129,10 @@ class ViewModelImplementation: NSObject, ViewModel {
         } else {
             likedLocations.append(cityTableViewDelegateHelper.selectedCity.0)
         }
-        fillLikedCityList()
+        userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
+        likedCityList = fullCityList.filter({
+            likedLocations.contains($0.id)
+        })
     }
 
     func rememberLastLocation() {

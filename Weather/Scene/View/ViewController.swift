@@ -184,6 +184,7 @@ class ViewController: UIViewController {
         if (viewModel?.isSoundOn) == true {
             viewModel?.soundEffectPlayer?.play()
         }
+        listOfLikedCitiesTableView.reloadData()
     }
 
     @IBAction func currentLocationButtonPressed(_ sender: Any) {
