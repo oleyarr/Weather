@@ -66,6 +66,7 @@ class ForecastTableViewDelegateHelper: NSObject, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewController.listOfLikedCitiesTableView.alpha = 0
         viewController.listOfLikedCitiesButton.isSelected = false
+        viewController.listOfLikedCitiesButton.layer.shadowOpacity = 0
         viewController.hourlyForecastTableView.alpha = 1
     }
 }

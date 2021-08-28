@@ -16,13 +16,28 @@ protocol ViewModel {
     var soundEffectPlayer: AVAudioPlayer? { get set }
     func prepareSound()
     func viewDidLoad()
+    func getFullCityList()
+    var fullCityList: [CityList] { get set }
+    var likedCityList: [CityList] { get set }
+    var likedLocations: [Int] { get set }
+    func fillLikedCityList()
+    func getLikedCityList() -> [CityList]
+    var userDefaults: UserDefaults { get set }
+    func setLike()
+    func rememberLastLocation()
+    func getHourlyForecastbyCoordinates()
+    var lang: String { get set }
+    var units: String { get set }
 }
 
 class ViewModelImplementation: NSObject, ViewModel {
+    var viewController: ViewController
     init(viewController: ViewController) {
         self.viewController = viewController
     }
-    weak var viewController: ViewController?
+    lazy var cityTableViewDelegateHelper = viewController.cityTableViewDelegateHelper
+    lazy var forecastTableViewDelegateHelper = viewController.forecastTableViewDelegateHelper
+    lazy var listOfLikedCitiesTableViewDelegateHelper = viewController.listOfLikedCitiesTableViewDelegateHelper
 
     var didSoundButtonPressed: ((Bool) -> ())?
     var backgroundPlayer: AVAudioPlayer?
@@ -41,9 +56,18 @@ class ViewModelImplementation: NSObject, ViewModel {
             }
         }
     }
+    var fullCityList: [CityList] = []
+    var likedCityList: [CityList] = []
+    var likedLocations: [Int] = []
+    var userDefaults = UserDefaults.standard
+    var lang = "RU"
+    var units = "Metric"
 
     func viewDidLoad() {
         prepareSound()
+        getFullCityList()
+        fillLikedCityList()
+        rememberLastLocation()
     }
 
     func prepareSound() {
@@ -75,6 +99,93 @@ class ViewModelImplementation: NSObject, ViewModel {
                 print(error.localizedDescription)
             }
         }
+    }
+
+    func getFullCityList() {
+        if let path = Bundle.main.path(forResource: "city.list.min", ofType: "json"),
+           let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+            if let decodedData = try? JSONDecoder().decode([CityList].self, from: data) {
+                fullCityList = decodedData
+            } else {print("bad json")}
+        }
+    }
+
+    func fillLikedCityList() {
+        likedLocations = userDefaults.value(forKey: "list_of_city_likes") as? [Int] ?? []
+        likedCityList = fullCityList.filter({
+            likedLocations.contains($0.id)
+        })
+    }
+
+    func getLikedCityList() -> [CityList] {
+        return likedCityList
+    }
+
+    func setLike() {
+        if likedLocations.contains(cityTableViewDelegateHelper.selectedCity.0) {
+            if let index = likedLocations.firstIndex(of: cityTableViewDelegateHelper.selectedCity.0) {
+                likedLocations.remove(at: index)
+            }
+        } else {
+            likedLocations.append(cityTableViewDelegateHelper.selectedCity.0)
+        }
+        fillLikedCityList()
+    }
+
+    func rememberLastLocation() {
+        if let lastLocationAny = userDefaults.value(forKey: "last_location") {
+            let lastLocationString = lastLocationAny as? String ?? "0"
+            let lastLocationInt: Int = Int(lastLocationString) ?? 0
+            switch lastLocationInt {
+            case let(cityId) where cityId > 0:
+                let city = fullCityList.filter({
+                    $0.id == cityId
+                })
+                viewController.citySearchTextField.text = "\(city[0].name) " + "\(city[0].country)"
+                viewController.cityTableViewDelegateHelper.selectedGeoCoord = (city[0].coord.lat,
+                                                                                city[0].coord.lon)
+                cityTableViewDelegateHelper.selectedCity = (city[0].id,
+                                                            city[0].name,
+                                                            city[0].country)
+                viewController.showCityForecast()
+            case -1:
+                viewController.getCurrentLocationHourlyForecast()
+            default:
+                return
+            }
+        }
+    }
+
+    func getHourlyForecastbyCoordinates() {
+        let lat = cityTableViewDelegateHelper.selectedGeoCoord.0
+        let lon = cityTableViewDelegateHelper.selectedGeoCoord.1
+        guard let url = URL(
+            string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(lon)&exclude=daily&appid=0eb04ad449f01dd1766e48d84b0d27aa&units=\(units)&lang=\(lang)"
+        ) else {
+            print("incorrect URL")
+            return
+        }
+        let request = URLRequest(url: url)
+        let task = URLSession.shared.dataTask(with: request) {data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            guard let data = data else {
+                print("incorrect data")
+                return
+            }
+            do {
+                let decode = try JSONDecoder().decode(HourlyForecast.self, from: data)
+                self.forecastTableViewDelegateHelper.hourlyWeather = decode
+                DispatchQueue.main.async {
+                    self.viewController.hourlyForecastTableView.reloadData()
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
     }
 }
 
