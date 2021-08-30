@@ -24,6 +24,7 @@
                                 </constraints>
                                 <state key="normal">
                                     <imageReference key="image" image="play.slash" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
                                 </state>
                                 <connections>
                                     <action selector="soundButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="msy-0B-DkY"/>
@@ -38,6 +39,7 @@
                                 <state key="normal">
                                     <color key="titleColor" systemColor="systemBlueColor"/>
                                     <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
                                 </state>
                                 <connections>
                                     <action selector="likeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TK8-sd-Apw"/>
@@ -61,7 +63,10 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YeJ-1B-TtI" secondAttribute="height" multiplier="1:1" id="gPb-sT-ZWf"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="location.viewfinder" catalog="system"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" backgroundImage="location.viewfinder" catalog="system">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="currentLocationButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l78-ON-C70"/>
                                 </connections>
@@ -78,6 +83,7 @@
                                 <state key="normal">
                                     <color key="titleColor" systemColor="systemBlueColor"/>
                                     <imageReference key="image" image="list.bullet" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
                                 </state>
                                 <connections>
                                     <action selector="listOfLikedCitiesButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mRu-c7-y4G"/>

@@ -28,7 +28,7 @@ protocol ViewModel {
     var units: String { get set }
     func deleteLike(cityId: Int)
     func setLike(cityId: Int)
-    func resortLikedCities()
+    func sortLikedCities()
 }
 
 class ViewModelImplementation: NSObject, ViewModel {
@@ -49,7 +49,6 @@ class ViewModelImplementation: NSObject, ViewModel {
         didSet {
             isSoundOn = isSoundEnabled
             self.didSoundButtonPressed?(isSoundEnabled)
-            // бизнес-логика
             if isSoundEnabled {
                 backgroundPlayer?.play()
             } else {
@@ -118,18 +117,6 @@ class ViewModelImplementation: NSObject, ViewModel {
         }).sorted(by: {$0.name < $1.name})
     }
 
-//    func setOrRemoveLike() {
-//        if likedLocations.contains(cityTableViewDelegateHelper.selectedCity.0) {
-//            if let index = likedLocations.firstIndex(of: cityTableViewDelegateHelper.selectedCity.0) {
-//                likedLocations.remove(at: index)
-//            }
-//        } else {
-//            likedLocations.append(cityTableViewDelegateHelper.selectedCity.0)
-//        }
-//        userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
-//        resortLikedCities()
-//    }
-
     func deleteLike(cityId: Int) {
         if let likedLocationIndex = likedLocations.firstIndex(of: cityId) {
             likedLocations.remove(at: likedLocationIndex)
@@ -139,17 +126,19 @@ class ViewModelImplementation: NSObject, ViewModel {
             }
             userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
         }
-        resortLikedCities()
-        viewController.changeLikeVisualState()
+        sortLikedCities()
+        if viewController.cityTableViewDelegateHelper.selectedCity.0 == cityId {
+            viewController.changeLikeButtonVisualState()
+        }
     }
 
     func setLike(cityId: Int) {
         likedLocations.append(cityId)
-        resortLikedCities()
-        viewController.changeLikeVisualState()
+        sortLikedCities()
+        viewController.changeLikeButtonVisualState()
     }
 
-    func resortLikedCities() {
+    func sortLikedCities() {
         likedCityList = fullCityList.filter({
             likedLocations.contains($0.id)
         }).sorted(by: {$0.name < $1.name})

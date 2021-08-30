@@ -179,7 +179,6 @@ class ViewController: UIViewController {
     }
 
     @IBAction func likeButtonPressed(_ sender: Any) {
-//        changeLikeVisualState()
         if likeButton.isSelected {
             viewModel?.deleteLike(cityId: cityTableViewDelegateHelper.selectedCity.0)
         } else {
@@ -197,7 +196,7 @@ class ViewController: UIViewController {
         getCurrentLocationHourlyForecast()
     }
 
-    func changeLikeVisualState() {
+    func changeLikeButtonVisualState() {
         likeButton.isSelected = !likeButton.isSelected
     }
 }
