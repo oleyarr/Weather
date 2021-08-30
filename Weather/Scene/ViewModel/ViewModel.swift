@@ -21,13 +21,14 @@ protocol ViewModel {
     var likedCityList: [CityList] { get set }
     var likedLocations: [Int] { get set }
     func fillLikedCityList()
-    func getLikedCityList() -> [CityList]
     var userDefaults: UserDefaults { get set }
-    func setLike()
     func rememberLastLocation()
     func getHourlyForecastbyCoordinates()
     var lang: String { get set }
     var units: String { get set }
+    func deleteLike(cityId: Int)
+    func setLike(cityId: Int)
+    func resortLikedCities()
 }
 
 class ViewModelImplementation: NSObject, ViewModel {
@@ -114,25 +115,44 @@ class ViewModelImplementation: NSObject, ViewModel {
         likedLocations = userDefaults.value(forKey: "list_of_city_likes") as? [Int] ?? []
         likedCityList = fullCityList.filter({
             likedLocations.contains($0.id)
-        })
+        }).sorted(by: {$0.name < $1.name})
     }
 
-    func getLikedCityList() -> [CityList] {
-        return likedCityList
-    }
+//    func setOrRemoveLike() {
+//        if likedLocations.contains(cityTableViewDelegateHelper.selectedCity.0) {
+//            if let index = likedLocations.firstIndex(of: cityTableViewDelegateHelper.selectedCity.0) {
+//                likedLocations.remove(at: index)
+//            }
+//        } else {
+//            likedLocations.append(cityTableViewDelegateHelper.selectedCity.0)
+//        }
+//        userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
+//        resortLikedCities()
+//    }
 
-    func setLike() {
-        if likedLocations.contains(cityTableViewDelegateHelper.selectedCity.0) {
-            if let index = likedLocations.firstIndex(of: cityTableViewDelegateHelper.selectedCity.0) {
-                likedLocations.remove(at: index)
+    func deleteLike(cityId: Int) {
+        if let likedLocationIndex = likedLocations.firstIndex(of: cityId) {
+            likedLocations.remove(at: likedLocationIndex)
+            if let likedCityListIndex = likedCityList.firstIndex(where: { cityList in
+                                                                    cityList.id == cityId }) {
+                likedCityList.remove(at: likedCityListIndex)
             }
-        } else {
-            likedLocations.append(cityTableViewDelegateHelper.selectedCity.0)
+            userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
         }
-        userDefaults.setValue(likedLocations, forKey: "list_of_city_likes")
+        resortLikedCities()
+        viewController.changeLikeVisualState()
+    }
+
+    func setLike(cityId: Int) {
+        likedLocations.append(cityId)
+        resortLikedCities()
+        viewController.changeLikeVisualState()
+    }
+
+    func resortLikedCities() {
         likedCityList = fullCityList.filter({
             likedLocations.contains($0.id)
-        })
+        }).sorted(by: {$0.name < $1.name})
     }
 
     func rememberLastLocation() {

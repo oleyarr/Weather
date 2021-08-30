@@ -84,14 +84,17 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HTJ-Ky-HNu">
-                                <rect key="frame" x="22" y="130" width="296" height="377"/>
+                                <rect key="frame" x="22" y="119" width="259" height="440"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="440" id="hrN-yC-482"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CustomCell" id="gSF-oM-VUt">
-                                        <rect key="frame" x="0.0" y="24.5" width="296" height="44"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="259" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gSF-oM-VUt" id="GrV-AU-FmR">
-                                            <rect key="frame" x="0.0" y="0.0" width="296" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="259" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         </tableViewCellContentView>
@@ -107,18 +110,17 @@
                             <constraint firstItem="zYW-AN-Fao" firstAttribute="centerY" secondItem="flv-vc-9n6" secondAttribute="centerY" id="2F9-D9-x9b"/>
                             <constraint firstItem="EHf-KX-b2u" firstAttribute="leading" secondItem="flv-vc-9n6" secondAttribute="trailing" id="5cE-eh-klD"/>
                             <constraint firstItem="flv-vc-9n6" firstAttribute="centerY" secondItem="YeJ-1B-TtI" secondAttribute="centerY" id="7dx-A4-coJ"/>
-                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="width" secondItem="NEV-8L-BqV" secondAttribute="width" multiplier="0.8" id="7xQ-iR-AOG"/>
+                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="width" secondItem="NEV-8L-BqV" secondAttribute="width" multiplier="0.7" id="7xQ-iR-AOG"/>
                             <constraint firstItem="NEV-8L-BqV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="9mp-Wn-abT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EHf-KX-b2u" secondAttribute="trailing" constant="22" id="Cgw-FW-rCf"/>
                             <constraint firstItem="NEV-8L-BqV" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="22" id="D1c-4Z-UBt"/>
-                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="height" secondItem="NEV-8L-BqV" secondAttribute="height" multiplier="0.5" id="EZZ-sy-zwu"/>
                             <constraint firstItem="gpe-2B-RWT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="Hye-VZ-UN1"/>
                             <constraint firstItem="YeJ-1B-TtI" firstAttribute="height" secondItem="flv-vc-9n6" secondAttribute="height" multiplier="0.8" id="ItT-zP-qko"/>
                             <constraint firstItem="NEV-8L-BqV" firstAttribute="top" secondItem="EHf-KX-b2u" secondAttribute="bottom" constant="22" id="JP1-ux-gDE"/>
                             <constraint firstItem="zYW-AN-Fao" firstAttribute="leading" secondItem="pcf-vl-qCk" secondAttribute="trailing" id="LkI-B1-3Vp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NEV-8L-BqV" secondAttribute="trailing" constant="22" id="Obp-yX-kga"/>
                             <constraint firstItem="flv-vc-9n6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="QGf-Wg-1oh"/>
-                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="top" secondItem="pcf-vl-qCk" secondAttribute="bottom" constant="22" id="RBV-p4-DHO"/>
+                            <constraint firstItem="HTJ-Ky-HNu" firstAttribute="top" secondItem="pcf-vl-qCk" secondAttribute="bottom" constant="11" id="RBV-p4-DHO"/>
                             <constraint firstItem="EHf-KX-b2u" firstAttribute="centerY" secondItem="flv-vc-9n6" secondAttribute="centerY" id="SRi-HT-HUc"/>
                             <constraint firstItem="pcf-vl-qCk" firstAttribute="height" secondItem="zYW-AN-Fao" secondAttribute="height" id="X0M-RO-A7p"/>
                             <constraint firstItem="zYW-AN-Fao" firstAttribute="height" secondItem="flv-vc-9n6" secondAttribute="height" id="bVO-hK-iB5"/>

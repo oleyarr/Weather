@@ -6,19 +6,18 @@ import UIKit
 class ListOfLikedCitiesTableViewDelegateHelper: NSObject, UITableViewDataSource, UITableViewDelegate {
 
         var viewController: ViewController
-
         init(viewController: ViewController) {
             self.viewController = viewController
             super.init()
         }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewController.viewModel?.likedCityList.count ?? 0
+        return rowsCount()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
-        cell.textLabel?.textColor = .red
+        cell.textLabel?.textColor = .systemBlue
         cell.backgroundColor = .lightGray
         if  let viewModel = viewController.viewModel {
         cell.textLabel?.text =
@@ -31,6 +30,7 @@ class ListOfLikedCitiesTableViewDelegateHelper: NSObject, UITableViewDataSource,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewController.listOfLikedCitiesTableView.alpha = 0
+        viewController.listOfLikedCitiesButton.layer.shadowOpacity = 0
         viewController.listOfLikedCitiesButton.isSelected = !viewController.listOfLikedCitiesButton.isSelected
         if let viewModel = viewController.viewModel {
             viewController.cityTableViewDelegateHelper.selectedGeoCoord = (
@@ -47,7 +47,28 @@ class ListOfLikedCitiesTableViewDelegateHelper: NSObject, UITableViewDataSource,
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        let rowHeight = 44
+        return CGFloat(rowHeight)
     }
 
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            if let viewModel = viewController.viewModel {
+                viewModel.deleteLike(cityId: viewModel.likedCityList[indexPath.row].id)
+            }
+            tableView.endUpdates()
+        }
+    }
+
+    func rowsCount() -> Int {
+        return viewController.viewModel?.likedCityList.count ?? 0
+    }
 }

@@ -49,6 +49,7 @@ class ViewController: UIViewController {
         hourlyForecastTableView.dataSource = forecastTableViewDelegateHelper
         hourlyForecastTableView.delegate = forecastTableViewDelegateHelper
         hourlyForecastTableView.alpha = 1
+
         cityListTableView.dataSource = cityTableViewDelegateHelper
         cityListTableView.delegate = cityTableViewDelegateHelper
         cityListTableView.alpha = 0
@@ -68,7 +69,6 @@ class ViewController: UIViewController {
         listOfLikedCitiesButton.setImage(UIImage(systemName: "list.bullet"), for: .normal)
         listOfLikedCitiesButton.setImage(UIImage(systemName: "list.bullet.rectangle"), for: .selected)
         listOfLikedCitiesButton.clipsToBounds = false
-        listOfLikedCitiesTableView.layer.shadowOpacity = 0
         listOfLikedCitiesButton.layer.shadowColor = UIColor.black.cgColor
         listOfLikedCitiesButton.layer.shadowOffset = CGSize(width: 3, height: 3)
 
@@ -169,8 +169,8 @@ class ViewController: UIViewController {
         if listOfLikedCitiesButton.isSelected {
             hourlyForecastTableView.alpha = 0.5
             listOfLikedCitiesTableView.alpha = 1
-            listOfLikedCitiesTableView.reloadData()
             listOfLikedCitiesButton.layer.shadowOpacity = 0.5
+            listOfLikedCitiesTableView.reloadData()
         } else {
             listOfLikedCitiesTableView.alpha = 0
             hourlyForecastTableView.alpha = 1
@@ -179,8 +179,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func likeButtonPressed(_ sender: Any) {
-        viewModel?.setLike()
-        likeButton.isSelected = !likeButton.isSelected
+//        changeLikeVisualState()
+        if likeButton.isSelected {
+            viewModel?.deleteLike(cityId: cityTableViewDelegateHelper.selectedCity.0)
+        } else {
+            viewModel?.setLike(cityId: cityTableViewDelegateHelper.selectedCity.0)
+        }
         if (viewModel?.isSoundOn) == true {
             viewModel?.soundEffectPlayer?.play()
         }
@@ -191,5 +195,9 @@ class ViewController: UIViewController {
         listOfLikedCitiesButton.layer.shadowOpacity = 0
         listOfLikedCitiesTableView.alpha = 0
         getCurrentLocationHourlyForecast()
+    }
+
+    func changeLikeVisualState() {
+        likeButton.isSelected = !likeButton.isSelected
     }
 }
