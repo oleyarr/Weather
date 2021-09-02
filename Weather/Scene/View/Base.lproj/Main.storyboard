@@ -24,7 +24,7 @@
                                 </constraints>
                                 <state key="normal">
                                     <imageReference key="image" image="play.slash" catalog="system" symbolScale="large"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
                                 </state>
                                 <connections>
                                     <action selector="soundButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="msy-0B-DkY"/>
@@ -39,7 +39,7 @@
                                 <state key="normal">
                                     <color key="titleColor" systemColor="systemBlueColor"/>
                                     <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
                                 </state>
                                 <connections>
                                     <action selector="likeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TK8-sd-Apw"/>
@@ -83,7 +83,7 @@
                                 <state key="normal">
                                     <color key="titleColor" systemColor="systemBlueColor"/>
                                     <imageReference key="image" image="list.bullet" catalog="system" symbolScale="large"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
                                 </state>
                                 <connections>
                                     <action selector="listOfLikedCitiesButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mRu-c7-y4G"/>
@@ -148,6 +148,7 @@
                         <outlet property="likeButton" destination="zYW-AN-Fao" id="7rf-2F-LHI"/>
                         <outlet property="listOfLikedCitiesButton" destination="pcf-vl-qCk" id="KaO-Oh-a4F"/>
                         <outlet property="listOfLikedCitiesTableView" destination="HTJ-Ky-HNu" id="LRj-Ca-S2o"/>
+                        <outlet property="listOfLikedCitiesTableViewHeight" destination="hrN-yC-482" id="Spu-3b-hWN"/>
                         <outlet property="soundButton" destination="EHf-KX-b2u" id="LwD-sP-Els"/>
                     </connections>
                 </viewController>

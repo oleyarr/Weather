@@ -29,6 +29,8 @@ protocol ViewModel {
     func deleteLike(cityId: Int)
     func setLike(cityId: Int)
     func sortLikedCities()
+    func showLikedCityRow(indexPathRow: Int)
+    func likedCityListCount() -> Int
 }
 
 class ViewModelImplementation: NSObject, ViewModel {
@@ -171,9 +173,15 @@ class ViewModelImplementation: NSObject, ViewModel {
     func getHourlyForecastbyCoordinates() {
         let lat = cityTableViewDelegateHelper.selectedGeoCoord.0
         let lon = cityTableViewDelegateHelper.selectedGeoCoord.1
-        guard let url = URL(
-            string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(lon)&exclude=daily&appid=0eb04ad449f01dd1766e48d84b0d27aa&units=\(units)&lang=\(lang)"
-        ) else {
+        let urlString =
+            "https://api.openweathermap.org/data/2.5/onecall?"
+            + "lat=\(lat)"
+            + "&lon=\(lon)"
+            + "&exclude=daily&appid=0eb04ad449f01dd1766e48d84b0d27aa"
+            + "&units=\(units)"
+            + "&lang=\(lang)"
+        guard let url = URL(string: urlString)
+        else {
             print("incorrect URL")
             return
         }
@@ -192,12 +200,31 @@ class ViewModelImplementation: NSObject, ViewModel {
                 self.forecastTableViewDelegateHelper.hourlyWeather = decode
                 DispatchQueue.main.async {
                     self.viewController.hourlyForecastTableView.reloadData()
+                    self.viewController.hourlyForecastTableView.scrollToRow(at: IndexPath(row: 0, section: 0),
+                                                                            at: .top,
+                                                                            animated: true)
                 }
             } catch {
                 print(error.localizedDescription)
             }
         }
         task.resume()
+    }
+
+    func showLikedCityRow(indexPathRow: Int) {
+        viewController.cityTableViewDelegateHelper.selectedGeoCoord = (
+            likedCityList[indexPathRow].coord.lat,
+            likedCityList[indexPathRow].coord.lon
+        )
+        viewController.cityTableViewDelegateHelper.selectedCity = (
+            likedCityList[indexPathRow].id,
+            likedCityList[indexPathRow].name,
+            likedCityList[indexPathRow].country
+        )
+    }
+    
+    func likedCityListCount() -> Int {
+        likedCityList.count
     }
 }
 

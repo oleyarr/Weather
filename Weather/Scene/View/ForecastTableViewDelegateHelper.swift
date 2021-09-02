@@ -25,6 +25,10 @@ class ForecastTableViewDelegateHelper: NSObject, UITableViewDelegate, UITableVie
         return hourlyWeather.hourly.count
     }
 
+    func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
+        return IndexPath.init(index: 1)
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         viewController.cityListTableView.alpha = 0
         viewController.hourlyForecastTableView.alpha = 1
